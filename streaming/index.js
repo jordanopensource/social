@@ -54,7 +54,10 @@ const dbUrlToConfig = (dbUrl) => {
   const ssl = params.query && params.query.ssl;
 
   if (ssl && ssl === 'true' || ssl === '1') {
-    config.ssl = true;
+    config.ssl = {
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(`/etc/ssl/certs/database/db_cert.crt`).toString()
+    }
   }
 
   return config;
